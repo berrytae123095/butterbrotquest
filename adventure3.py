@@ -94,8 +94,18 @@ def show():
         print(item)
     if len(Game.player_inventory) == 0:
         print("You have nothing in your inventory.")
+    
+@adv.when("drop ITEM")
+def drop(item):
+	obj = Game.player_inventory.take(item)
+	if not obj:
+		print("You have no such item to drop")
+	else:
+		print("You drop", item)
+		Game.current_room.inventory.add(obj)
+	
         
-
+@adv.when("pick up ITEM")
 @adv.when("take ITEM")
 def get(item):
     obj = Game.current_room.inventory.take(item)
@@ -158,11 +168,23 @@ layout = [
     ]
 
 window = sg.Window("Butterbrotquest",layout)
-
+window.finalize()
+window["listbox1"].update(values=Game.player_inventory)
+window["listbox2"].update(values=Game.current_room.inventory)
 while True:
     event,values = window.read(timeout=100)
     if event in (sg.WIN_CLOSED, "Quit"):
         break
+    # ----- items on floor selected? -----
+    selected_items = window["listbox2"].get()
+    if len(selected_items) > 0:
+            window["pick up"].update(disabled = False)
+    else:
+            window["pick up"].update(disabled = True)   
+    if len(selected_items) == 1:
+        item = selected_items[0]
+        if event == "pick up":
+            window["command"].update(value=f"pick up {item}")    
     # ----- inventory item selected? -----
     selected_items = window["listbox1"].get()
     if len(selected_items) > 0:
@@ -193,12 +215,7 @@ while True:
 
         # ---- room items update ------
         window["listbox2"].update(values=Game.current_room.inventory)
-        if len(Game.current_room.inventory) > 0:
-            window["pick up"].update(disabled = False)
-        else:
-            window["pick up"].update(disabled = True)
-            
-            
+       
             
 window.close()
 #if __name__ == "__main__":
