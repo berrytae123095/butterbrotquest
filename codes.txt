@@ -1,0 +1,10 @@
+Zettel im Computerraum
+das passwort als binärzahl:
+Potzenzen:128 64 32 16 8 4 2 1
+Passwort:  0   0  1  0 1 0 1 0   
+
+Zettel im Bedroom:
+Wie man Binärzahlen in Dezimalzahlen umrechnet:
+Potzenzen:128 64 32 16 8 4 2 1
+Binärzhal:  0  0  0  1 1 1 0 0
+Rechne: 1x0 + 2x 0 + 4x 1 + 8 x1 + 16x1 + 32 x 0 + 64 x 0 + 128x0 = 28
